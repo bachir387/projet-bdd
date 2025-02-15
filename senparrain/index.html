@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenue sur la Plateforme des Parrains</title>
+  <style>
+    /* Réinitialisation basique */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+    /* Navbar */
+    .navbar {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar h1 {
+      font-size: 1.5em;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+    }
+    .navbar ul li {
+      margin-left: 20px;
+    }
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .navbar ul li a:hover {
+      color: #dcdcdc;
+    }
+    /* Main content */
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .container h2 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+    .container p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      margin: 10px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    /* Footer */
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1>Bienvenue, Parrain !</h1>
+    <ul>
+      <li><a href="register_parrain.html">S'enregistrer</a></li>
+      <li><a href="login_parrain.html">Enregistrer mon parrainage</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenu principal -->
+  <div class="container">
+    <h2>Bienvenue sur la Plateforme des Parrains</h2>
+    <p>Cette plateforme vous permet de vous enregistrer en tant que parrain et d'enregistrer votre parrainage en quelques étapes simples.</p>
+    <p>Pour commencer, cliquez sur le lien "S'enregistrer" pour créer votre profil ou "Enregistrer mon parrainage" si vous êtes déjà inscrit.</p>
+    <a href="register_parrain.html" class="btn">S'enregistrer</a>
+    <a href="login_parrain.html" class="btn">Enregistrer mon parrainage</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Plateforme des Parrains - Tous droits réservés</p>
+  </footer>
+</body>
+</html>

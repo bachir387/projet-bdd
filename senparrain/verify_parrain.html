@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vérification d'Identité - Parrainage</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; }
+    .container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    .message { margin-top: 15px; padding: 10px; border-radius: 4px; }
+    .error { background: #f8d7da; color: #721c24; }
+    .success { background: #d4edda; color: #155724; }
+    a.btn { display: inline-block; padding: 10px 15px; background: #28a745; color: #fff; text-decoration: none; border-radius: 4px; margin-top: 15px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vérification d'Identité</h1>
+    <div id="message"></div>
+    <form id="verifyForm">
+      <label>Numéro d’électeur :</label>
+      <input type="text" name="numero_electeur" required>
+      <label>Numéro de CIN :</label>
+      <input type="text" name="numero_cin" required>
+      <label>Code d'authentification :</label>
+      <input type="text" name="code_auth" required>
+      <button type="submit">Vérifier</button>
+    </form>
+    <div id="parrainInfo" style="display:none; margin-top:20px;">
+      <h3>Vos informations :</h3>
+      <p id="infoDisplay"></p>
+      <a href="list_candidates.html" class="btn">Voir la liste des candidats</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('verifyForm');
+    const messageDiv = document.getElementById('message');
+    const parrainInfoDiv = document.getElementById('parrainInfo');
+    const infoDisplay = document.getElementById('infoDisplay');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value.trim());
+
+      fetch('http://localhost:8000/parrainages/register_sponsorship.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          numero_electeur: data.numero_electeur,
+          numero_cin: data.numero_cin,
+          code_auth: data.code_auth
+        })
+      })
+      .then(response => response.json())
+      .then(res => {
+        messageDiv.innerHTML = `<div class="message ${res.success ? 'success' : 'error'}">${res.message}</div>`;
+        if (res.success && res.data) {
+          localStorage.setItem('numero_electeur', data.numero_electeur);
+          localStorage.setItem('numero_cin', data.numero_cin);
+          localStorage.setItem('code_auth', data.code_auth);
+          infoDisplay.innerHTML = `Nom : ${res.data.nom}<br>Prénom : ${res.data.prenom}<br>Date de naissance : ${res.data.date_naissance}<br>Bureau de vote : ${res.data.bureau_vote}`;
+          parrainInfoDiv.style.display = 'block';
+          form.style.display = 'none';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        messageDiv.innerHTML = `<div class="message error">Erreur lors de la vérification.</div>`;
+      });
+    });
+  </script>
+</body>
+</html>

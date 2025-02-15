@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription du Parrain</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Inscription du Parrain</h1>
+    <div id="message"></div>
+    <form id="registerForm">
+      <label for="numero_electeur">Numéro d’électeur :</label>
+      <input type="text" id="numero_electeur" name="numero_electeur" required>
+
+      <label for="numero_cin">Numéro de CIN :</label>
+      <input type="text" id="numero_cin" name="numero_cin" required>
+
+      <label for="nom">Nom de famille :</label>
+      <input type="text" id="nom" name="nom" required>
+
+      <label for="prenom">Prénom :</label>
+      <input type="text" id="prenom" name="prenom" required>
+
+      <label for="bureau_vote">Bureau de vote :</label>
+      <input type="text" id="bureau_vote" name="bureau_vote" required>
+
+      <label for="telephone">Téléphone :</label>
+      <input type="text" id="telephone" name="telephone" required>
+
+      <label for="email">Email :</label>
+      <input type="email" id="email" name="email" required>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Récupération des valeurs du formulaire
+      const numero_electeur = document.getElementById('numero_electeur').value;
+      const numero_cin = document.getElementById('numero_cin').value;
+      const nom = document.getElementById('nom').value;
+      const prenom = document.getElementById('prenom').value;
+      const bureau_vote = document.getElementById('bureau_vote').value;
+      const telephone = document.getElementById('telephone').value;
+      const email = document.getElementById('email').value;
+      
+      // Création de l'objet payload
+      const payload = {
+        numero_electeur: numero_electeur,
+        numero_cin: numero_cin,
+        nom: nom,
+        prenom: prenom,
+        bureau_vote: bureau_vote,
+        telephone: telephone,
+        email: email
+      };
+      
+      // Appel à l'API via fetch
+      fetch('http://localhost:8000/parrainages/register_sponsor.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success) {
+          messageDiv.innerHTML = `<div class="message success">${data.message}</div>`;
+          // Rediriger vers la page de connexion après 2 secondes
+          setTimeout(() => {
+            window.location.href = 'login_parrain.html';
+          }, 2000);
+        } else {
+          messageDiv.innerHTML = `<div class="message error">${data.message}</div>`;
+        }
+      })
+      .catch(error => {
+        messageDiv.innerHTML = `<div class="message error">Erreur lors de l'inscription.</div>`;
+        console.error("Erreur:", error);
+      });
+    });
+  </script>
+</body>
+</html>
